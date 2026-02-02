@@ -1,0 +1,9 @@
+﻿<#
+#pragma warning disable 0168, 0219
+var VERSION = "0.0.0.0";
+var PREFIX = "prefix";
+var NAME = "mod name";
+var DESCRIPTION = "mod description";
+var URL = "https://example.com";
+#pragma warning restore 0168, 0219
+#>

@@ -1,0 +1,14 @@
+﻿<#@ template language="C#" debug="false" hostspecific="true" #>
+<#@ output extension=".cs" #>
+<#@ include file="..\Consts\PluginConsts.tt.part" #>
+<#
+    var version = new Version(VERSION);
+#>
+internal static class PluginInfo
+{
+    public const string PluginGUID = "<#= PREFIX #>.<#= System.Text.RegularExpressions.Regex.Replace(NAME, @"\s+", "") #>";
+    public const string PluginName = "<#= NAME #>";
+    public const string PluginDescription = "<#= DESCRIPTION #>";
+    public const string PluginSemanticVersion = "<#= $"{version.Major}.{version.Minor}.{version.Build}" #>";
+    public const string PluginFullVersion = "<#= VERSION #>";
+}

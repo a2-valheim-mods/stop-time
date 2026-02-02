@@ -1,0 +1,38 @@
+﻿<#@ assembly name="System.Core" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#
+    var JOTUNN_VERSION = "";
+    {
+        string __templateFileDir = Path.GetDirectoryName(this.Host.TemplateFile);
+
+        const int __MAX_DEPTH = 10;
+        DirectoryInfo __currentDir = new DirectoryInfo(__templateFileDir);
+        DirectoryInfo __solutionDir = null;
+        
+        for (int i = 0; i < __MAX_DEPTH && __currentDir != null; i++)
+        {
+            if (__currentDir.GetFiles("*.sln").Any())
+            {
+                __solutionDir = __currentDir;
+                break;
+            }
+            __currentDir = __currentDir.Parent;
+        }
+
+        if (__solutionDir == null) throw new Exception("Solution (.sln) file not found while walking up the directory tree.");
+
+        string __packagesRoot = Path.Combine(__solutionDir.FullName, "Build", "packages");
+        string[] __packageDirs = Directory.GetDirectories(__packagesRoot, "JotunnLib.*");
+
+        if (__packageDirs.Length == 0) throw new Exception("Jotunn package not found in solution packages folder.");
+
+        string __latestPackageDir = System.Linq.Enumerable.OrderByDescending(__packageDirs, d => d).First();
+        string __dllPath = Path.Combine(__latestPackageDir, "lib", "net462", "Jotunn.dll");
+
+        if (!File.Exists(__dllPath)) throw new Exception($"Jotunn.dll not found at {__dllPath}");
+
+        JOTUNN_VERSION = Path.GetFileName(__latestPackageDir).Replace("JotunnLib.","");
+    }
+#>

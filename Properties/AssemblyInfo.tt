@@ -1,0 +1,22 @@
+﻿<#@ template language="C#" debug="false" hostspecific="true" #>
+<#@ output extension=".cs" #>
+<#@ include file="..\Consts\PluginConsts.tt.part" #>
+<#
+	var version = new Version(VERSION);
+	var ASSEMBLY_GUID = new Guid(System.Security.Cryptography.MD5.Create().ComputeHash(System.Text.Encoding.UTF8.GetBytes(PREFIX + "." + NAME)));
+#>
+using System.Reflection;
+using System.Runtime.InteropServices;
+
+[assembly: AssemblyTitle("<#= NAME #>")]
+[assembly: AssemblyDescription("<#= DESCRIPTION #>")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("<#= NAME #>")]
+[assembly: AssemblyCopyright("")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+[assembly: ComVisible(false)]
+[assembly: Guid("<#= ASSEMBLY_GUID #>")]
+[assembly: AssemblyVersion("<#= $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}" #>")]
+[assembly: AssemblyFileVersion("<#= $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}" #>")]

@@ -1,0 +1,18 @@
+﻿<#@ template language="C#" debug="false" hostspecific="true" #>
+<#@ output extension=".json" #>
+<#@ include file="Helpers\BepInExPackVersion.tt.part" #>
+<#@ include file="Helpers\JotunnVersion.tt.part" #>
+<#@ include file="..\..\Consts\PluginConsts.tt.part" #>
+<#
+ var version = new Version(VERSION);
+#>
+{
+    "name": "<#= System.Text.RegularExpressions.Regex.Replace(NAME, @"\s+", "_") #>",
+    "description": "<#= DESCRIPTION #>",
+    "version_number": "<#= $"{version.Major}.{version.Minor}.{version.Build}" #>",
+    "website_url": "<#= URL #>",
+    "dependencies": [
+        "denikson-BepInExPack_Valheim-<#= BEPINEXPACK_VERSION #>",
+        "ValheimModding-Jotunn-<#= JOTUNN_VERSION #>"
+    ]
+}

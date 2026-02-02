@@ -1,0 +1,12 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ output extension=".props" #>
+<#@ include file="..\Consts\PluginConsts.tt.part" #>
+<#
+    var version = new Version(VERSION);
+#>
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <AssemblyVersion><#= $"{version.Major}.{version.Minor}.{version.Build}" #></AssemblyVersion>
+  </PropertyGroup>
+</Project>

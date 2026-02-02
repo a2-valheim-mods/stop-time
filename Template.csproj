@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <NoWarn>MSB3277</NoWarn>
+  </PropertyGroup>
+  <Import Project="Build\packages\JotunnLib.2.27.1\build\JotunnLib.props" Condition="Exists('Build\packages\JotunnLib.2.27.1\build\JotunnLib.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B41725BB-6D4D-4A4E-BFE6-6B498FA182F5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Template</RootNamespace>
+    <AssemblyName>Template</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <OutputPath>Build\bin\$(Configuration).$(Platform)\</OutputPath>
+    <IntermediateOutputPath>Build\obj\$(Configuration).$(Platform)\</IntermediateOutputPath>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>12.0</LangVersion>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Jotunn, Version=2.27.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>Build\packages\JotunnLib.2.27.1\lib\net462\Jotunn.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Build\Thunderstore\PostBuildStripBOM.ps1" />
+    <Compile Include="Plugin.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AssemblyInfo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\IgnoreAccessModifiers.cs" />
+    <Compile Include="Properties\IsExternalInitShim.cs" />
+    <Compile Include="Properties\PluginInfo.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PluginInfo.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Build\Thunderstore\icon.png" />
+    <Content Include="Build\Thunderstore\manifest.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>manifest.json</LastGenOutput>
+    </Content>
+    <None Include="Build\Thunderstore\Helpers\BepInExPackVersion.tt.part" />
+    <None Include="Build\Thunderstore\Helpers\JotunnVersion.tt.part" />
+    <Content Include="Properties\AssemblyInfo.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AssemblyInfo.cs</LastGenOutput>
+    </Content>
+    <Content Include="Properties\AssemblyVersion.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AssemblyVersion.props</LastGenOutput>
+    </Content>
+    <Content Include="Properties\PluginInfo.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PluginInfo.cs</LastGenOutput>
+    </Content>
+    <None Include="Consts\PluginConsts.tt.part" />
+    <None Include="CHANGELOG.md" />
+    <None Include="Build\Thunderstore\manifest.json">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>manifest.tt</DependentUpon>
+    </None>
+    <None Include="LICENSE.md" />
+    <None Include="Properties\AssemblyVersion.props">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AssemblyVersion.tt</DependentUpon>
+    </None>
+    <None Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
+  <PropertyGroup>
+    <!-- TEXT TEMPLATES CONFIGUATION -->
+    <TextTemplatingPath>$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TextTemplating</TextTemplatingPath>
+    <TransformOnBuild>true</TransformOnBuild>
+    <OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
+    <TransformOutOfDateOnly>false</TransformOutOfDateOnly>
+  </PropertyGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(TextTemplatingPath)\Microsoft.TextTemplating.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('Build\packages\JotunnLib.2.27.1\build\JotunnLib.props')" Text="$([System.String]::Format('$(ErrorText)', 'Build\packages\JotunnLib.2.27.1\build\JotunnLib.props'))" />
+  </Target>
+  <Import Project="$(ProjectDir)Properties\AssemblyVersion.props" Condition="Exists('$(ProjectDir)Properties\AssemblyVersion.props')" />
+  <Target Name="PostBuildPackage" AfterTargets="Build">
+    <!-- Delete existing package directory if it exists -->
+    <Message Text="Cleaning package directory: $(ProjectDir)Build\Package" Importance="High" />
+    <RemoveDir Directories="$(ProjectDir)Build\Package" Condition="Exists('$(ProjectDir)Build\Package')" />
+    <!-- Create the target directory if it doesn't exist -->
+    <Message Text="Preparing package: $(ProjectDir)Build\Package\plugins" Importance="High" />
+    <MakeDir Directories="$(ProjectDir)Build\Package" Condition="!Exists('$(ProjectDir)Build\Package')" />
+    <MakeDir Directories="$(ProjectDir)Build\Package\plugins" Condition="!Exists('$(ProjectDir)Build\Package\plugins')" />
+    <!-- Copy the compiled DLL -->
+    <Message Text="$(TargetFileName) -&gt; $(ProjectDir)Build\Package\plugins\$(TargetFileName)" Importance="High" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ProjectDir)Build\Package\plugins" SkipUnchangedFiles="true" />
+    <!-- Copy the PDB if it exists -->
+    <Message Text="$(TargetDir)$(TargetName).pdb -&gt; $(ProjectDir)Build\Package\plugins\$(TargetDir)$(TargetName).pdb" Importance="High" Condition="Exists('$(TargetDir)$(TargetName).pdb')" />
+    <Copy SourceFiles="$(TargetDir)$(TargetName).pdb" DestinationFolder="$(ProjectDir)Build\Package\plugins" SkipUnchangedFiles="true" Condition="Exists('$(TargetDir)$(TargetName).pdb')" />
+    <!-- Copy Thunderstore files -->
+    <Message Text="icon.png -&gt; $(ProjectDir)Build\Package\icon.png" Importance="High" />
+    <Copy SourceFiles="$(ProjectDir)Build\Thunderstore\icon.png" DestinationFolder="$(ProjectDir)Build\Package" SkipUnchangedFiles="true" />
+    <Message Text="manifest.json -&gt; $(ProjectDir)Build\Package\manifest.json" Importance="High" />
+    <Copy SourceFiles="$(ProjectDir)Build\Thunderstore\manifest.json" DestinationFolder="$(ProjectDir)Build\Package" SkipUnchangedFiles="true" />
+    <!-- Copy root project files -->
+    <Message Text="CHANGELOG.md -&gt; $(ProjectDir)Build\Package\CHANGELOG.md" Importance="High" />
+    <Copy SourceFiles="$(ProjectDir)CHANGELOG.md" DestinationFolder="$(ProjectDir)Build\Package" SkipUnchangedFiles="true" />
+    <Message Text="README.md -&gt; $(ProjectDir)Build\Package\README.md" Importance="High" />
+    <Copy SourceFiles="$(ProjectDir)README.md" DestinationFolder="$(ProjectDir)Build\Package" SkipUnchangedFiles="true" />
+    <Exec Command="powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File &quot;$(ProjectDir)Build\Thunderstore\PostBuildStripBOM.ps1&quot;" />
+    <!-- Create ZIP archive -->
+    <Message Text="Creating ZIP archive: $(ProjectDir)Build\$(AssemblyName)-$(AssemblyVersion)-$(Configuration).zip" Importance="High" />
+    <Exec Command="powershell -NoLogo -NoProfile -Command &quot;if(Test-Path '$(ProjectDir)Build\$(AssemblyName)-$(AssemblyVersion)-$(Configuration).zip'){Remove-Item '$(ProjectDir)Build\$(AssemblyName)-$(AssemblyVersion)-$(Configuration).zip'}; Compress-Archive -Path '$(ProjectDir)Build\Package\*' -DestinationPath '$(ProjectDir)Build\$(AssemblyName)-$(AssemblyVersion)-$(Configuration).zip'&quot;" />
+  </Target>
+</Project>

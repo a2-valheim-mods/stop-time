@@ -1,6 +1,6 @@
 ﻿<#
 #pragma warning disable 0168, 0219
-var VERSION = "0.1.3.0";
+var VERSION = "0.1.4.0";
 var PREFIX = "A2";
 var NAME = "Stop Time";
 var DESCRIPTION = "Allows you to break the laws of the universe and stop the flow of time.";

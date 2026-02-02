@@ -1,4 +1,8 @@
-﻿## [v0.1.3 (Experimanetal)](https://github.com/a2-valheim-mods/stop-time/releases/tag/v0.1.3)
+﻿## [v0.1.4 (Experimental)](https://github.com/a2-valheim-mods/stop-time/releases/tag/v0.1.4)
+
+- Corrected spelling mistake in CHANGELOG.
+
+## [v0.1.3 (Experimental)](https://github.com/a2-valheim-mods/stop-time/releases/tag/v0.1.3)
 
 - Moved code from [StopTime](https://thunderstore.io/c/valheim/p/noglow/StopTime/).
 - Using new mod template.

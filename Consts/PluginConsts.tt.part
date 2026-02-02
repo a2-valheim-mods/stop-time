@@ -1,9 +1,9 @@
 ﻿<#
 #pragma warning disable 0168, 0219
-var VERSION = "0.0.0.0";
-var PREFIX = "prefix";
-var NAME = "mod name";
-var DESCRIPTION = "mod description";
-var URL = "https://example.com";
+var VERSION = "0.1.3.0";
+var PREFIX = "A2";
+var NAME = "Stop Time";
+var DESCRIPTION = "Allows you to break the laws of the universe and stop the flow of time.";
+var URL = "https://github.com/a2-valheim-mods/stop-time";
 #pragma warning restore 0168, 0219
 #>

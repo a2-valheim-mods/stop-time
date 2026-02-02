@@ -1,10 +1,30 @@
-﻿# Template Project for Valheim Mod
+﻿# Stop Time
 
-This is a template project for a **code-only Valheim mod**.  
+**THIS IS RELEASED AS THE EXPERIMENTAL VERSION FOR NOW.
+USE AT YOUR OWN RISK.**
 
-Modify the `Consts/PluginConsts.tt.part` file to change the **name**, **version**, and **description**.  
-These values will be used in the assembly info and to generate the `PluginConsts` class with constants for use in your code.  
+Everyone must have this mod installed to join the game.
 
-Modify `Environment.props` file to change location of BepInEx directory.
+## Disclaimer
 
-**Note:** This file will be copied to the `Build/Package` directory.
+This mod is used by the author and released at the request of other players.
+Its intention is to stop time during server maintenance and preparation for events.
+It has **NOT** undergone extensive testing and may cause unexpected behavior.
+
+## Description
+
+Allows you to break the laws of the universe and stop the flow of time.
+
+Adds two new commands:
+- `timestop` - Stops the flow of time
+- `timeresume` - Resumes the flow of time
+
+Time can also be stopped through mod configuration.
+
+Commands are sent to the server, making them usable in multiplayer.
+All clients will be notified when time is stopped or resumed.
+
+Time does not affect the movement of entities or piece physics.
+Processes like ore smelting will not work.
+Days and daytime will not progress.
+Another observable effect is that waves will stop moving.

@@ -54,7 +54,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include=".editorconfig" />
     <None Include="Build\Thunderstore\PostBuildStripBOM.ps1" />
     <Compile Include="Commands\TimeResumeCommand.cs" />
     <Compile Include="Commands\TimeStopCommand.cs" />

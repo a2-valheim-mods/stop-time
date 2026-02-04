@@ -1,5 +1,7 @@
-﻿using HarmonyLib;
-#pragma warning disable IDE0060
+﻿#pragma warning disable IDE0060
+
+using HarmonyLib;
+
 namespace A2.StopTime.Patches
 {
     public static class ZNetPatch
@@ -14,4 +16,5 @@ namespace A2.StopTime.Patches
         }
     }
 }
+
 #pragma warning restore IDE0060

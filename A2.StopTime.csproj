@@ -152,6 +152,9 @@
     <Message Text="README.md -&gt; $(ProjectDir)Build\Package\README.md" Importance="High" />
     <Copy SourceFiles="$(ProjectDir)README.md" DestinationFolder="$(ProjectDir)Build\Package" SkipUnchangedFiles="true" />
     <Exec Command="powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File &quot;$(ProjectDir)Build\Thunderstore\PostBuildStripBOM.ps1&quot;" />
+    <!-- Remove all existing ZIP files in the Build folder -->
+    <Message Text="Removing existing ZIP files in $(ProjectDir)Build" Importance="High" />
+    <Exec Command="powershell -NoLogo -NoProfile -Command &quot;Get-ChildItem -Path '$(ProjectDir)Build' -Filter '*.zip' | Remove-Item -Force&quot;" />
     <!-- Create ZIP archive -->
     <Message Text="Creating ZIP archive: $(ProjectDir)Build\$(AssemblyName)-$(AssemblyVersion)-$(Configuration).zip" Importance="High" />
     <Exec Command="powershell -NoLogo -NoProfile -Command &quot;if(Test-Path '$(ProjectDir)Build\$(AssemblyName)-$(AssemblyVersion)-$(Configuration).zip'){Remove-Item '$(ProjectDir)Build\$(AssemblyName)-$(AssemblyVersion)-$(Configuration).zip'}; Compress-Archive -Path '$(ProjectDir)Build\Package\*' -DestinationPath '$(ProjectDir)Build\$(AssemblyName)-$(AssemblyVersion)-$(Configuration).zip'&quot;" />

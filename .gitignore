@@ -9,6 +9,7 @@ Properties/AssemblyInfo.cs
 Properties/AssemblyVersion.props
 Properties/PluginInfo.cs
 Build/Thunderstore/manifest.json
+Build/Cache
 
 ## Visual Studio
 ## https://github.com/github/gitignore/blob/main/VisualStudio.gitignore

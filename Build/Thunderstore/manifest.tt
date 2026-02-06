@@ -1,7 +1,6 @@
 ﻿<#@ template language="C#" debug="false" hostspecific="true" #>
 <#@ output extension=".json" #>
-<#@ include file="Helpers\BepInExPackVersion.tt.part" #>
-<#@ include file="Helpers\JotunnVersion.tt.part" #>
+<#@ include file="Helpers\GetPackageLatestVersion.tt.part" #>
 <#@ include file="..\..\Consts\PluginConsts.tt.part" #>
 <#
  var version = new Version(VERSION);
@@ -12,7 +11,7 @@
     "version_number": "<#= $"{version.Major}.{version.Minor}.{version.Build}" #>",
     "website_url": "<#= URL #>",
     "dependencies": [
-        "denikson-BepInExPack_Valheim-<#= BEPINEXPACK_VERSION #>",
-        "ValheimModding-Jotunn-<#= JOTUNN_VERSION #>"
+        "<#= GetPackageLatestVersion("denikson", "BepInExPack_Valheim", "5.4.2333") #>",
+        "<#= GetPackageLatestVersion("ValheimModding", "Jotunn", "2.27.1") #>"
     ]
 }

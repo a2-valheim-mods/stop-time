@@ -1,0 +1,114 @@
+﻿<#@ assembly name="System" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Net.Requests" #>
+<#@ assembly name="System.Web.Extensions" #>
+<#@ assembly name="Microsoft.CSharp" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Net" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Web.Script.Serialization" #>
+<#@ import namespace="System.Globalization" #>
+<#
+#pragma warning disable 0168, 0219
+string GetPackageLatestVersion(string author, string name, string fallbackVersion)
+{
+    string templateFileDir = Path.GetDirectoryName(this.Host.TemplateFile);
+
+    const int MAX_DEPTH = 10;
+    var currentDir = new DirectoryInfo(templateFileDir);
+    DirectoryInfo solutionDir = null;
+        
+    for (int i = 0; i < MAX_DEPTH && currentDir != null; i++)
+    {
+        if (currentDir.GetFiles("*.sln").Any())
+        {
+            solutionDir = currentDir;
+            break;
+        }
+        currentDir = currentDir.Parent;
+    }
+    if (solutionDir == null) throw new Exception("Solution (.sln) file not found while walking up the directory tree.");
+	
+    var cacheDir = Path.Combine(solutionDir.FullName, "Build", "Cache", "Thunderstore");
+	Directory.CreateDirectory(cacheDir);
+    var cachePath = Path.Combine(cacheDir, $"{author}.{name}.json");
+    var nowUtc = DateTimeOffset.UtcNow;
+	// 1 hour cache window
+    var cacheTtl = TimeSpan.FromHours(1);
+
+	// Try cache first
+    try
+    {
+        if (File.Exists(cachePath))
+        {
+            var cachedJson = File.ReadAllText(cachePath);
+            var serializer = new JavaScriptSerializer();
+            var cache = serializer.Deserialize<Dictionary<string, object>>(cachedJson);
+
+            var version = cache["Version"] as string;
+            var fetchedAtUtc = DateTimeOffset.Parse(
+                cache["FetchedAtUtc"].ToString(),
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.RoundtripKind);
+
+            if (cache != null && !string.IsNullOrWhiteSpace(version) && nowUtc - fetchedAtUtc <= cacheTtl)
+            {
+                return $"{author}-{name}-{version}";
+            }
+        }
+    }
+    catch
+    {
+        // Ignore cache errors and fall back to online lookup
+    }
+
+    // Fetch online
+    var resolvedVersion = fallbackVersion;
+    string url = $"https://thunderstore.io/api/v1/package-metrics/{author}/{name}/";
+
+    try
+    {
+        var request = (HttpWebRequest)WebRequest.Create(url);
+        request.Method = "GET";
+        request.Accept = "application/json";
+
+        using (var response = (HttpWebResponse)request.GetResponse())
+        using (var reader = new StreamReader(response.GetResponseStream()))
+        {
+            var json = reader.ReadToEnd();
+            var serializer = new JavaScriptSerializer();
+            dynamic obj = serializer.Deserialize<dynamic>(json);
+
+            if (obj.ContainsKey("latest_version"))
+            {
+                resolvedVersion = obj["latest_version"];
+            }
+        }
+    }
+    catch
+    {
+        // Keep fallbackVersion
+    }
+
+    // Write cache
+    try
+    {
+        var serializer = new JavaScriptSerializer();
+        var cache = new Dictionary<string, object>
+        {
+            { "Version", resolvedVersion },
+            { "FetchedAtUtc", DateTimeOffset.UtcNow.ToString("o") }
+        };
+        File.WriteAllText(cachePath, serializer.Serialize(cache));
+    }
+    catch
+    {
+        // Ignore cache write errors
+    }
+
+    return $"{author}-{name}-{resolvedVersion}";
+}
+#pragma warning restore 0168, 0219
+#>
